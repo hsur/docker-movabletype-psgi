@@ -1,20 +1,26 @@
 # Movable Type 開発環境
 ## 動作環境
-* Docker 1.13.0+ / Docker Compose 1.10.0+
+* Docker 23.0.4+ / Docker Compose 2.17.2+
 
 ## 立ち上がる環境
-* Apache 2.4 + PSGI + MySQL
+* Apache 2.4(ubuntu:18.04) + PSGI(ubuntu:22.04) + MySQL
 
 ## 使い方
-### git clone 〜 docker-compose build
+### git clone 〜 docker compose build
 ```bash
-git clone git@github.com:apricoton/docker-movabletype-psgi.git
+git clone https://github.com/hsur/docker-movabletype-psgi.git
 cd docker-movabletype-psgi
 cp .env.example .env
-docker-compose build
+docker compose build
 ```
 
-### Movable Type を下記のように設置
+### Movable Type 本体と mt-config.cgi の設置
+以下のコマンドを実行することでMTOS-5.2.13とmt-config.cgiを自動的に設置できます。
+```bash
+bash mtsetup.sh
+```
+
+#### Movable Type を下記のように設置
 ```
 docker-movabletype-psgi/
 └ src/
@@ -23,7 +29,7 @@ docker-movabletype-psgi/
          └ mt-static/ シンボリックリンク or コピー
 ```
 
-### mt-config.cgi
+#### mt-config.cgi
 ```perl
 CGIPath        http://localhost:8000/mt/
 StaticWebPath  /mt-static/
@@ -43,7 +49,7 @@ PIDFilePath /var/run/mt.pid
 
 ### 実行
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 管理画面にアクセス
@@ -55,13 +61,13 @@ docker-compose up -d
 ### Tips
 #### toolsのスクリプトを実行する
 ```bash
-docker-compose exec --user docker mt /var/www/mt/tools/upgrade --name Melody
-docker-compose exec --user docker mt /var/www/mt/tools/run-periodic-tasks
+docker compose exec --user docker mt /var/www/mt/tools/upgrade --name Melody
+docker compose exec --user docker mt /var/www/mt/tools/run-periodic-tasks
 ```
 
 #### MTの再起動
 ```bash
-docker-compose restart mt
+docker compose restart mt
 ```
 
 #### .env
