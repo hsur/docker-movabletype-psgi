@@ -1,12 +1,12 @@
-FROM ubuntu:16.10
+FROM ubuntu:22.04
 RUN sed -i 's/\/archive.ubuntu.com/\/jp.archive.ubuntu.com/g' /etc/apt/sources.list
 RUN apt update && \
     apt -y dist-upgrade && \
     apt -y install build-essential libimager-perl libimage-magick-perl libdbi-perl \
     libdbd-mysql-perl libipc-run-perl libcrypt-dsa-perl libxml-sax-expatxs-perl \
     libxml-sax-perl libarchive-zip-perl libcoro-perl libplack-middleware-debug-perl \
-    cpanminus starman && \
-    cpanm Mozilla::CA Task::Plack XMLRPC::Transport::HTTP::Plack
+    cpanminus starman curl libxmlrpc-lite-perl && \
+    cpanm Starlet Mozilla::CA Task::Plack XMLRPC::Transport::HTTP::Plack
 RUN useradd docker
 ARG APP_PORT
 EXPOSE $APP_PORT
